@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#f7f8fc" />
+  <title>Détail du devis | CoopQuote AI</title>
+  <meta name="description" content="Consultez, modifiez et validez un devis généré par CoopQuote AI." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%236d28d9'/%3E%3Cpath d='M5.5 7.5 12 4l6.5 3.5v9L12 20l-6.5-3.5v-9Z' fill='none' stroke='white' stroke-width='1.7' stroke-linejoin='round'/%3E%3Cpath d='m8.5 12 2.2 2.2 4.8-4.8' fill='none' stroke='white' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="antialiased">
+  <main class="min-h-screen bg-[#f7f8fc] text-slate-900">
+
+    <!-- Overlay mobile -->
+    <button id="menu-overlay" type="button" aria-label="Fermer le menu" class="fixed inset-0 z-[15] hidden bg-slate-950/30 lg:hidden print:hidden"></button>
+
+    <!-- Barre latérale -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-20 flex w-[260px] -translate-x-full flex-col border-r border-slate-200/80 bg-white px-5 py-6 transition-transform duration-200 lg:translate-x-0 print:hidden">
+      <div class="flex items-center justify-between px-1">
+        <a href="dashboard.html" class="flex items-center gap-3" aria-label="CoopQuote AI — tableau de bord">
+          <span class="flex size-10 items-center justify-center rounded-[14px] bg-gradient-to-br from-violet-600 to-indigo-700 text-white shadow-lg shadow-indigo-900/20">
+            <svg viewBox="0 0 24 24" fill="none" class="size-5" aria-hidden="true">
+              <path d="M5.5 7.5 12 4l6.5 3.5v9L12 20l-6.5-3.5v-9Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+              <path d="m8.5 12 2.2 2.2 4.8-4.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <span class="text-[17px] font-semibold tracking-[-0.05em] text-slate-950">CoopQuote <span class="font-normal text-violet-600">AI</span></span>
+        </a>
+        <button id="menu-close" type="button" aria-label="Fermer le menu" class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 lg:hidden"><i data-icon="x" class="size-5"></i></button>
+      </div>
+
+      <p class="mt-10 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">Espace de travail</p>
+      <nav id="nav" aria-label="Navigation principale" class="mt-3 flex flex-col gap-1"></nav>
+
+      <div class="mt-auto rounded-2xl bg-[#17142f] p-4 text-white">
+        <span class="flex size-9 items-center justify-center rounded-xl bg-white/10 text-violet-200"><i data-icon="sparkles" class="size-[17px]"></i></span>
+        <p class="mt-3 text-[13px] font-semibold">Votre coopérative, en mieux.</p>
+        <p class="mt-1 text-[11px] leading-5 text-blue-100/65">L’IA vous aide à trouver les meilleures offres, ensemble.</p>
+        <span class="mt-3 inline-flex items-center gap-1.5 text-[11px] font-medium text-violet-200">Achats coopératifs <i data-icon="arrow-right" class="size-3.5"></i></span>
+      </div>
+      <div class="mt-5 flex items-center gap-3 border-t border-slate-100 px-2 pt-5">
+        <span class="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-indigo-100 to-violet-100 text-[12px] font-semibold text-indigo-800">ML</span>
+        <span class="min-w-0 flex-1"><span class="block truncate text-[12px] font-semibold text-slate-800">Marie Laurent</span><span class="mt-0.5 block truncate text-[10px] text-slate-400">Administratrice</span></span>
+        <i data-icon="chevron-down" class="size-4 text-slate-400"></i>
+      </div>
+    </aside>
+
+    <section class="min-h-screen lg:pl-[260px] print:pl-0">
+      <!-- En-tête -->
+      <header class="sticky top-0 z-10 flex h-[72px] items-center justify-between border-b border-slate-200/70 bg-white/90 px-5 backdrop-blur-xl sm:px-8 lg:px-10 print:hidden">
+        <div class="flex items-center gap-3">
+          <button id="menu-open" type="button" aria-label="Ouvrir le menu" class="rounded-lg p-2 text-slate-500 hover:bg-slate-100 lg:hidden"><i data-icon="menu" class="size-5"></i></button>
+          <div class="hidden items-center gap-2 text-[12px] text-slate-400 sm:flex"><a href="dashboard.html" class="hover:text-slate-700">Workspace</a><span class="text-slate-300">/</span><span class="text-slate-400">Devis</span><span class="text-slate-300">/</span><span id="crumb-ref" class="font-medium text-slate-700"></span></div>
+          <span class="text-[13px] font-semibold text-slate-800 sm:hidden">Détail du devis</span>
+        </div>
+        <div class="flex items-center gap-3 sm:gap-5">
+          <label class="relative hidden sm:block"><i data-icon="search" class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"></i><input type="search" aria-label="Rechercher" placeholder="Rechercher..." class="h-9 w-[220px] rounded-lg border border-slate-200 bg-slate-50/70 pl-9 pr-3 text-[12px] outline-none transition placeholder:text-slate-400 focus:border-violet-300 focus:bg-white focus:ring-2 focus:ring-violet-500/10" /></label>
+          <button type="button" aria-label="Notifications" class="relative rounded-lg p-2 text-slate-500 hover:bg-slate-100"><i data-icon="bell" data-sw="1.8" class="size-[18px]"></i><span class="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-violet-600 ring-2 ring-white"></span></button>
+          <span class="hidden h-7 w-px bg-slate-200 sm:block"></span>
+          <button type="button" class="flex items-center gap-2.5 rounded-lg text-left"><span class="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-indigo-100 to-violet-100 text-[11px] font-semibold text-indigo-800">ML</span><span class="hidden text-[11px] font-semibold text-slate-700 md:block">Marie Laurent</span><i data-icon="chevron-down" class="hidden size-3.5 text-slate-400 md:block"></i></button>
+        </div>
+      </header>
+
+      <div class="mx-auto flex max-w-[1440px] flex-col gap-6 px-5 py-6 sm:px-8 sm:py-8 lg:px-10 print:px-0 print:py-0">
+        <a href="dashboard.html" class="inline-flex w-fit items-center gap-2 text-[12px] font-medium text-slate-500 transition hover:text-violet-700 print:hidden"><i data-icon="arrow-left" class="size-4"></i>Retour au tableau de bord</a>
+
+        <!-- En-tête du devis -->
+        <section class="flex flex-col gap-5 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_2px_10px_-7px_rgba(15,23,42,0.18)] sm:p-6 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-flex items-center gap-1.5 rounded-full bg-violet-50 px-2.5 py-1 text-[10px] font-semibold text-violet-700"><i data-icon="sparkles" class="size-3"></i>Généré par IA</span>
+              <span id="status-badge"></span>
+            </div>
+            <h1 class="mt-3 text-[25px] font-semibold tracking-[-0.05em] text-slate-950 sm:text-[30px]">Devis <span id="title-ref" class="text-indigo-700"></span></h1>
+            <p class="mt-1.5 text-[12px] text-slate-500">Pour <span class="font-semibold text-slate-700">Atelier Auguste</span><span class="mx-2 text-slate-300">·</span>Créé le 29 septembre 2026</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 print:hidden">
+            <button id="btn-pdf" type="button" class="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"><i data-icon="arrow-down-to-line" class="size-4"></i>Télécharger PDF</button>
+            <button id="btn-edit" type="button" class="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"></button>
+            <button id="btn-approve" type="button" class="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-700 to-indigo-700 px-4 text-[11px] font-semibold text-white shadow-[0_6px_16px_-6px_rgba(91,57,190,0.65)] transition hover:from-violet-800 hover:to-indigo-800 disabled:cursor-default disabled:opacity-70"></button>
+          </div>
+        </section>
+
+        <div class="grid items-start gap-6 xl:grid-cols-[minmax(0,1.7fr)_minmax(290px,0.85fr)]">
+          <div class="flex min-w-0 flex-col gap-6">
+
+            <!-- 01 Brief client -->
+            <section aria-labelledby="request-title" class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_2px_10px_-7px_rgba(15,23,42,0.18)] sm:p-6">
+              <div class="flex items-start justify-between gap-4">
+                <div><p class="text-[10px] font-semibold uppercase tracking-[0.12em] text-violet-600">01 · Brief client</p><h2 id="request-title" class="mt-1.5 text-[15px] font-semibold tracking-[-0.025em] text-slate-900">Résumé de la demande</h2></div>
+                <span class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-700"><i data-icon="file-text" class="size-4"></i></span>
+              </div>
+              <div id="request-body"></div>
+              <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-t border-slate-100 pt-4 text-[10px] text-slate-500">
+                <span>Client <strong class="ml-1 font-semibold text-slate-700">Atelier Auguste</strong></span>
+                <span>Échéance souhaitée <strong class="ml-1 font-semibold text-slate-700">15 octobre 2026</strong></span>
+                <span>Livraison <strong class="ml-1 font-semibold text-slate-700">Lyon, 69002</strong></span>
+              </div>
+            </section>
+
+            <!-- 02 Articles -->
+            <section aria-labelledby="items-title" class="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_2px_10px_-7px_rgba(15,23,42,0.18)]">
+              <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-5 py-4 sm:px-6">
+                <div><p class="text-[10px] font-semibold uppercase tracking-[0.12em] text-violet-600">02 · Proposition commerciale</p><h2 id="items-title" class="mt-1.5 text-[15px] font-semibold tracking-[-0.025em] text-slate-900">Articles et prestations</h2></div>
+                <span id="items-count" class="rounded-lg bg-slate-50 px-2.5 py-1 text-[10px] font-medium text-slate-500"></span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full min-w-[620px] text-left">
+                  <thead>
+                    <tr class="bg-slate-50/70 text-[9px] font-semibold uppercase tracking-[0.09em] text-slate-400">
+                      <th class="px-5 py-3 sm:px-6">Désignation</th>
+                      <th class="px-3 py-3 text-center">Quantité</th>
+                      <th class="px-3 py-3 text-right">Prix unitaire</th>
+                      <th class="px-5 py-3 text-right sm:px-6">Total HT</th>
+                    </tr>
+                  </thead>
+                  <tbody id="items-body" class="divide-y divide-slate-100"></tbody>
+                </table>
+              </div>
+              <div id="totals" class="ml-auto flex w-full max-w-[330px] flex-col gap-2.5 border-t border-slate-100 px-5 py-4 sm:px-6"></div>
+            </section>
+
+            <!-- 03 Historique -->
+            <section aria-labelledby="history-title" class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_2px_10px_-7px_rgba(15,23,42,0.18)] sm:p-6">
+              <div class="flex items-start justify-between gap-4">
+                <div><p class="text-[10px] font-semibold uppercase tracking-[0.12em] text-violet-600">03 · Circuit de validation</p><h2 id="history-title" class="mt-1.5 text-[15px] font-semibold tracking-[-0.025em] text-slate-900">Historique des validations</h2></div>
+                <span class="flex size-9 items-center justify-center rounded-xl bg-blue-50 text-blue-700"><i data-icon="shield-check" class="size-4"></i></span>
+              </div>
+              <ol id="approvals" class="mt-5 flex flex-col"></ol>
+            </section>
+          </div>
+
+          <!-- Colonne droite -->
+          <aside class="flex flex-col gap-5 xl:sticky xl:top-[96px]">
+            <section aria-labelledby="ai-analysis-title" class="relative overflow-hidden rounded-2xl bg-[#17142f] p-5 text-white shadow-[0_14px_35px_-20px_rgba(30,27,75,0.55)] sm:p-6">
+              <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_92%_5%,rgba(122,95,255,0.24),transparent_40%),radial-gradient(ellipse_at_0%_100%,rgba(47,117,255,0.19),transparent_45%)]"></div>
+              <div class="relative">
+                <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.08] px-2.5 py-1 text-[9px] font-medium text-violet-100"><i data-icon="sparkles" class="size-3"></i>ANALYSE COOPQUOTE AI</span>
+                <h2 id="ai-analysis-title" class="mt-3 text-[16px] font-semibold tracking-[-0.03em]">Analyse IA &amp; Recommandations</h2>
+                <p class="mt-2 text-[10px] leading-5 text-blue-100/65">Une opportunité d’achat groupé identifiée auprès du fournisseur référencé.</p>
+
+                <div class="mt-5 rounded-xl border border-white/10 bg-white/[0.07] p-4">
+                  <p class="text-[9px] font-medium uppercase tracking-[0.1em] text-blue-100/60">Remise négociée</p>
+                  <div class="mt-1 flex items-end justify-between gap-2">
+                    <p class="text-[35px] font-semibold leading-none tracking-[-0.06em] text-white">−18,5<span class="text-[22px]">%</span></p>
+                    <span class="mb-0.5 inline-flex items-center gap-1 rounded-full bg-emerald-400/10 px-2 py-1 text-[9px] font-semibold text-emerald-200"><i data-icon="arrow-right" class="size-3 -rotate-45"></i>Tarif négocié</span>
+                  </div>
+                  <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-white/10"><div class="h-full w-[74%] rounded-full bg-gradient-to-r from-violet-400 to-blue-400"></div></div>
+                  <p class="mt-2 text-[9px] text-blue-100/50">Remise supérieure de 6,2 pts à la moyenne du secteur</p>
+                </div>
+
+                <div class="mt-3 flex items-center gap-3 rounded-xl border border-emerald-300/15 bg-emerald-300/[0.08] p-3.5">
+                  <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-emerald-300/10 text-emerald-200"><i data-icon="badge-check" class="size-[18px]"></i></span>
+                  <div><p class="text-[9px] text-blue-100/65">Économie réalisée</p><p id="savings-ai" class="mt-0.5 text-[17px] font-semibold tracking-[-0.04em] text-emerald-200"></p></div>
+                </div>
+
+                <div class="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4">
+                  <p class="text-[10px] font-semibold text-white">Recommandations</p>
+                  <div class="flex gap-2.5"><i data-icon="check" class="mt-0.5 size-3.5 shrink-0 text-emerald-300"></i><p class="text-[10px] leading-5 text-blue-100/70">Valider avant le 3 octobre pour conserver le tarif négocié.</p></div>
+                  <div class="flex gap-2.5"><i data-icon="check" class="mt-0.5 size-3.5 shrink-0 text-emerald-300"></i><p class="text-[10px] leading-5 text-blue-100/70">Livraison groupée offerte dès 5 équipements commandés.</p></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_2px_10px_-7px_rgba(15,23,42,0.18)]">
+              <div class="flex items-center justify-between"><h2 class="text-[12px] font-semibold text-slate-900">Fournisseur recommandé</h2><span class="rounded-full bg-emerald-50 px-2 py-1 text-[9px] font-semibold text-emerald-700">Vérifié</span></div>
+              <p class="mt-3 text-[13px] font-semibold text-slate-800">Buro &amp; Co Solutions</p>
+              <p class="mt-1 text-[10px] text-slate-500">Partenaire coopératif depuis 2022</p>
+              <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 text-[10px]"><span class="text-slate-400">Note des coopératives</span><span class="font-semibold text-slate-700">4,8 <span class="text-amber-500">★</span> <span class="font-normal text-slate-400">(126 avis)</span></span></div>
+            </section>
+
+            <p class="px-1 text-[9px] leading-4 text-slate-400">Les recommandations générées par l’IA sont indicatives et doivent être vérifiées avant validation finale.</p>
+          </aside>
+        </div>
+
+        <footer class="pb-2 text-center text-[10px] text-slate-400 print:hidden">© 2026 CoopQuote AI <span class="mx-1.5">·</span> Vos achats, en meilleure compagnie.</footer>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      /* ---------- Icônes (équivalents lucide, SVG inline) ---------- */
+      var ICONS = {
+        'arrow-down-to-line': '<path d="M12 17V3"/><path d="m6 11 6 6 6-6"/><path d="M19 21H5"/>',
+        'arrow-left': '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+        'arrow-right': '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+        'badge-check': '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/>',
+        'bell': '<path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/>',
+        'check': '<path d="M20 6 9 17l-5-5"/>',
+        'check-check': '<path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/>',
+        'chevron-down': '<path d="m6 9 6 6 6-6"/>',
+        'clock': '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16.5 12"/>',
+        'file-text': '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+        'layout-dashboard': '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',
+        'menu': '<line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>',
+        'pencil': '<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/>',
+        'search': '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+        'settings': '<path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/>',
+        'shield-check': '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+        'sparkles': '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
+        'users': '<path d="M18 21a8 8 0 0 0-16 0"/><circle cx="10" cy="8" r="5"/><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/>',
+        'x': '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'
+      };
+
+      function svg(name, cls, sw) {
+        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (sw || 2) +
+          '" stroke-linecap="round" stroke-linejoin="round" class="' + (cls || '') + '" aria-hidden="true">' + (ICONS[name] || '') + '</svg>';
+      }
+
+      function hydrateIcons(root) {
+        (root || document).querySelectorAll('i[data-icon]').forEach(function (el) {
+          el.outerHTML = svg(el.getAttribute('data-icon'), el.getAttribute('class'), el.getAttribute('data-sw'));
+        });
+      }
+
+      function esc(value) {
+        return String(value).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      function formatEuro(value) {
+        return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(value);
+      }
+
+      /* ---------- Données ---------- */
+      var reference = new URLSearchParams(window.location.search).get('ref') || 'DEV-2026-089';
+
+      var items = [
+        { name: 'Ordinateur portable professionnel', detail: 'ThinkPad E14 Gen 6 · 16 Go RAM, 512 Go SSD', quantity: 3, price: 1190 },
+        { name: 'Station d’accueil USB-C', detail: 'Double écran, charge 100 W, garantie 3 ans', quantity: 5, price: 149 },
+        { name: 'Écran professionnel 27 pouces', detail: 'QHD IPS · réglable en hauteur', quantity: 1, price: 890 },
+        { name: 'Clavier et souris sans fil', detail: 'Ensemble ergonomique · disposition AZERTY', quantity: 10, price: 34 }
+      ];
+
+      var approvals = [
+        { initials: 'ML', name: 'Marie Laurent', role: 'Demandeuse · Administratrice', date: '29 sept. 2026, 09:14', state: 'Demande créée', tone: 'violet' },
+        { initials: 'TB', name: 'Thomas Bernard', role: 'Analyse des achats', date: '29 sept. 2026, 09:18', state: 'Analyse complétée', tone: 'blue' },
+        { initials: 'SD', name: 'Sophie Dubois', role: 'Responsable financière', date: 'En attente', state: 'Validation requise', tone: 'amber' }
+      ];
+
+      var navigation = [
+        { label: 'Dashboard', icon: 'layout-dashboard', href: 'dashboard.html' },
+        { label: 'Devis', icon: 'file-text', href: 'devis.html' },
+        { label: 'Clients', icon: 'users', href: '#clients' },
+        { label: 'Paramètres', icon: 'settings', href: '#parametres' }
+      ];
+
+      var state = {
+        isApproved: false,
+        isEditing: false,
+        description: 'Équiper les nouveaux postes de notre équipe de coordination : trois ordinateurs portables performants, des stations d’accueil pour le travail hybride, ainsi qu’un écran supplémentaire et des périphériques ergonomiques pour l’espace partagé.'
+      };
+
+      var subtotal = items.reduce(function (sum, item) { return sum + item.quantity * item.price; }, 0);
+      var savings = subtotal * 0.185;
+      var totalHt = subtotal - savings;
+      var vat = totalHt * 0.2;
+
+      var $ = function (id) { return document.getElementById(id); };
+
+      /* ---------- Menu mobile ---------- */
+      var sidebar = $('sidebar');
+      var overlay = $('menu-overlay');
+      function setMenu(open) {
+        sidebar.classList.toggle('translate-x-0', open);
+        sidebar.classList.toggle('-translate-x-full', !open);
+        overlay.classList.toggle('hidden', !open);
+      }
+      $('menu-open').addEventListener('click', function () { setMenu(true); });
+      $('menu-close').addEventListener('click', function () { setMenu(false); });
+      overlay.addEventListener('click', function () { setMenu(false); });
+
+      /* ---------- Navigation ---------- */
+      $('nav').innerHTML = navigation.map(function (item) {
+        var active = item.label === 'Devis';
+        return '<a href="' + item.href + '"' + (active ? ' aria-current="page"' : '') +
+          ' class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-medium transition ' +
+          (active ? 'bg-violet-50 text-violet-700' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900') + '">' +
+          svg(item.icon, 'size-[17px] ' + (active ? 'text-violet-600' : 'text-slate-400 group-hover:text-slate-600'), 1.8) +
+          esc(item.label) +
+          (item.label === 'Devis' ? '<span class="ml-auto rounded-md bg-white px-2 py-0.5 text-[10px] font-semibold text-violet-600">16</span>' : '') +
+          '</a>';
+      }).join('');
+      $('nav').addEventListener('click', function () { setMenu(false); });
+
+      /* ---------- Références ---------- */
+      document.title = 'Devis ' + reference + ' | CoopQuote AI';
+      $('crumb-ref').textContent = reference;
+      $('title-ref').textContent = '#' + reference;
+
+      /* ---------- Articles et totaux (statique) ---------- */
+      $('items-count').textContent = items.length + ' références';
+      $('items-body').innerHTML = items.map(function (item) {
+        return '<tr>' +
+          '<td class="px-5 py-3.5 sm:px-6"><p class="text-[11px] font-semibold text-slate-800">' + esc(item.name) + '</p><p class="mt-1 text-[10px] text-slate-400">' + esc(item.detail) + '</p></td>' +
+          '<td class="px-3 py-3.5 text-center text-[11px] text-slate-600">' + item.quantity + '</td>' +
+          '<td class="whitespace-nowrap px-3 py-3.5 text-right text-[11px] text-slate-600">' + formatEuro(item.price) + '</td>' +
+          '<td class="whitespace-nowrap px-5 py-3.5 text-right text-[11px] font-semibold text-slate-800 sm:px-6">' + formatEuro(item.quantity * item.price) + '</td>' +
+          '</tr>';
+      }).join('');
+
+      $('totals').innerHTML =
+        '<div class="flex justify-between text-[11px] text-slate-500"><span>Sous-total HT</span><span class="font-medium text-slate-700">' + formatEuro(subtotal) + '</span></div>' +
+        '<div class="flex justify-between text-[11px] text-emerald-700"><span>Remise coopérative négociée <span class="font-semibold">(−18,5 %)</span></span><span class="font-semibold">−' + formatEuro(savings) + '</span></div>' +
+        '<div class="mt-1 flex justify-between border-t border-slate-100 pt-3 text-[13px] font-semibold text-slate-900"><span>Total HT</span><span>' + formatEuro(totalHt) + '</span></div>' +
+        '<div class="flex justify-between text-[10px] text-slate-400"><span>TVA (20 %)</span><span>' + formatEuro(vat) + '</span></div>' +
+        '<div class="flex justify-between text-[12px] font-semibold text-indigo-800"><span>Total TTC</span><span>' + formatEuro(totalHt + vat) + '</span></div>';
+
+      $('savings-ai').textContent = formatEuro(savings);
+
+      /* ---------- Parties dynamiques ---------- */
+      function renderStatus() {
+        $('status-badge').innerHTML =
+          '<span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-semibold ' +
+          (state.isApproved ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700') + '">' +
+          '<span class="size-1.5 rounded-full bg-current"></span>' +
+          (state.isApproved ? 'Validé' : 'En attente de validation') + '</span>';
+
+        var approve = $('btn-approve');
+        approve.disabled = state.isApproved;
+        approve.innerHTML = svg('check', 'size-4') + (state.isApproved ? 'Devis validé' : 'Valider');
+      }
+
+      function renderEditButton() {
+        $('btn-edit').innerHTML = svg('pencil', 'size-3.5') + (state.isEditing ? 'Terminer' : 'Modifier');
+      }
+
+      function renderRequest() {
+        var body = $('request-body');
+        if (state.isEditing) {
+          body.innerHTML =
+            '<div class="mt-4 flex flex-col gap-3">' +
+              '<label for="request-edit" class="sr-only">Modifier le résumé de la demande client</label>' +
+              '<textarea id="request-edit" rows="4" class="w-full resize-y rounded-xl border border-violet-200 bg-violet-50/40 p-3.5 text-[12px] leading-6 text-slate-700 outline-none focus:ring-2 focus:ring-violet-500/15">' + esc(state.description) + '</textarea>' +
+              '<button id="btn-save" type="button" class="inline-flex w-fit items-center gap-2 rounded-lg bg-violet-700 px-3 py-2 text-[11px] font-semibold text-white hover:bg-violet-800">' + svg('check', 'size-3.5') + 'Enregistrer les modifications</button>' +
+            '</div>';
+          $('request-edit').addEventListener('input', function (event) { state.description = event.target.value; });
+          $('btn-save').addEventListener('click', function () { setEditing(false); });
+        } else {
+          body.innerHTML = '<p class="mt-3 text-[12px] leading-6 text-slate-600">' + esc(state.description) + '</p>';
+        }
+      }
+
+      function renderApprovals() {
+        $('approvals').innerHTML = approvals.map(function (approval, index) {
+          var last = index === approvals.length - 1;
+          var approvedStep = index === 2 && state.isApproved;
+          var complete = index < 2 || approvedStep;
+          var avatar = approval.tone === 'violet' ? 'bg-violet-100 text-violet-800'
+            : approval.tone === 'blue' ? 'bg-blue-100 text-blue-800'
+            : complete ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-50 text-amber-700';
+
+          return '<li class="relative flex gap-3.5 pb-5 last:pb-0">' +
+            '<span class="relative z-[1] flex size-9 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold ' + avatar + '">' + esc(approval.initials) + '</span>' +
+            (last ? '' : '<span aria-hidden="true" class="absolute left-[17px] top-9 h-[calc(100%-22px)] w-px bg-slate-200"></span>') +
+            '<div class="min-w-0 flex-1 pt-0.5">' +
+              '<div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">' +
+                '<p class="text-[11px] font-semibold text-slate-800">' + esc(approval.name) + '</p>' +
+                '<time class="text-[9px] text-slate-400">' + (approvedStep ? '29 sept. 2026, maintenant' : esc(approval.date)) + '</time>' +
+              '</div>' +
+              '<p class="mt-0.5 text-[10px] text-slate-500">' + esc(approval.role) + '</p>' +
+              '<span class="mt-2 inline-flex items-center gap-1.5 text-[9px] font-medium ' + (complete ? 'text-emerald-700' : 'text-amber-700') + '">' +
+                (complete ? svg('check-check', 'size-3') : svg('clock', 'size-3')) +
+                (approvedStep ? 'Devis validé' : esc(approval.state)) +
+              '</span>' +
+            '</div></li>';
+        }).join('');
+      }
+
+      /* ---------- Actions ---------- */
+      function setEditing(value) {
+        state.isEditing = value;
+        renderEditButton();
+        renderRequest();
+      }
+
+      $('btn-pdf').addEventListener('click', function () { window.print(); });
+      $('btn-edit').addEventListener('click', function () { setEditing(!state.isEditing); });
+      $('btn-approve').addEventListener('click', function () {
+        state.isApproved = true;
+        renderStatus();
+        renderApprovals();
+      });
+
+      /* ---------- Initialisation ---------- */
+      renderStatus();
+      renderEditButton();
+      renderRequest();
+      renderApprovals();
+      hydrateIcons();
+    })();
+  </script>
+</body>
+</html>
