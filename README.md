@@ -1,46 +1,43 @@
- 
-# 🚀 CoopQuote AI — Assistant de Chiffrage B2B pour Coopératives
+# CoopQuote AI - Assistant de Chiffrage B2B 
 
-> **Positionnement :** Un outil de génération et d'optimisation de devis commerciaux propulsé par l'IA, conçu pour les indépendants et coopératives B2B.
-
----
-
-## 🎯 1. Problématique & Proposition de Valeur
-
-* **Problème :** Rédiger des propositions commerciales B2B est une tâche chronophage (2 à 3 heures par devis), sujette aux erreurs de chiffrage et aux omissions d'options.
-* **Solution :** Une interface minimale où l'utilisateur décrit le besoin client en une phrase. L'IA structure les lignes de devis, applique les taux de marge coopératifs et génère une proposition prête à l'envoi en **2 minutes**.
+**CoopQuote AI** est un PoC (Proof of Concept) d'assistant commercial intelligent conçu pour automatiser et sécuriser la génération de devis B2B pour les coopératives (ex: Unipros).
 
 ---
 
-## 👤 2. Persona Cible
-* **Nom :** Alexandre, Artisan / Consultant indépendant en coopérative (ex. Unipros).
-* **Besoin :** Gain de temps, zéro erreur de calcul, présentation professionnelle garantie pour ses clients.
+##  Problématique & Inconvénients Métier
+* **Perte de temps :** 2 à 3 heures par proposition commerciale rédigée à la main.
+* **Risque d'erreur :** Oubli des remises coopératives sur volume et mauvais calculs de TVA.
+* **Complexité :** Difficulté à garantir la conformité avec la politique tarifaire globale.
 
 ---
 
-## 🔄 3. Parcours Utilisateur (User Journey)
+##  Architecture Technique & Choix Produit
 
-1. **Saisie du Besoin (`index.html` / `dashboard.html`)**
-   * L'utilisateur saisit une consigne textuelle (ex: *"20 ordinateurs portables pour équipement d'équipe"*).
-   * Clic sur **« Générer le devis »**.
-2. **Traitement par l'IA**
-   * Analyse du besoin, décomposition des lots, calcul des remises de volume coopératives.
-3. **Consultation et Édition (`devis-detail.html`)**
-   * Affichage du devis structuré : lignes d'articles, sous-totaux, TVA et économies réalisées.
-   * Actions possibles : Export PDF, envoi par email ou modification.
+1. **System Prompting Métier :**
+   * Encadrement strict du LLM pour éliminer les hallucinations.
+   * **Règle RM-01 :** Application automatique du taux de TVA B2B à 20%.
+   * **Règle RM-02 :** Remise coopérative automatique de 15% pour toute commande > 10 unités.
+   * Restitution des réponses au format **JSON structuré**.
+
+2. **Interface Utilisateur (UI) :**
+   * Interface légère et réactive développée en HTML5 & Tailwind CSS.
+   * Gestion des états de chargement (*UI Loading States*) pour une meilleure expérience utilisateur.
+
+3. **Sécurité & Variables d'Environnement :**
+   * Isolation des clés API sensibles dans des fichiers `.env` ignorés par Git via `.gitignore`.
+
+4. **Souveraineté des Données & IA Locale (Ollama) :**
+   * Expérimentation et déploiement du modèle **Llama 3** en local via **Ollama**.
+   * Traitement hors-ligne garantissant la confidentialité des données tarifaires sensibles et le respect du RGPD.
+
+5. **Intégration Workflows & Automatisations (Webhooks) :**
+   * Architecture pensée pour s'intégrer aux flux existants (CRM / WordPress).
+   * Déclenchement automatique par **Webhooks** pour mettre à jour les fiches clients et générer les devis sans intervention humaine.
 
 ---
 
-## 📏 4. Règles Métier (Business Rules)
+## Lancer le projet en local
 
-* **RM-01 (TVA) :** Application automatique du taux standard de 20 % sauf mention d'une prestation exonérée.
-* **RM-02 (Marge Coopérative) :** Application d'une remise automatique de 15 % dès lors que la commande dépasse 10 unités.
-* **RM-03 (Validation) :** Un devis d'un montant supérieur à 10 000 € HT nécessite un statut *"En attente de validation coopérative"*.
-
----
-
-## 🛠️ 5. Stack Technique & Architecture PoC
-
-* **Interface UI :** HTML5, Tailwind CSS via CDN (prototypage ultra-rapide).
-* **Conception & Prompting :** v0.dev & Claude (génération de composants UI).
-* **Version Control :** Git & GitHub (workflow CLI).
+1. Cloner le dépôt :
+   ```bash
+   git clone [https://github.com/Chrystelle974/coopquote-ai.git](https://github.com/Chrystelle974/coopquote-ai.git)
